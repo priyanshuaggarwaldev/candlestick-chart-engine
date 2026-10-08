@@ -1,0 +1,424 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Paper Trading Simulator</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+    <h1>Paper Trading Simulator</h1>
+
+
+    <!-- Market Information -->
+    <div class="market-info">
+
+        <div class="market-card">
+            <span>Open</span>
+            <strong id="marketOpen">₹0.00</strong>
+        </div>
+
+        <div class="market-card">
+            <span>High</span>
+            <strong id="marketHigh">₹0.00</strong>
+        </div>
+
+        <div class="market-card">
+            <span>Low</span>
+            <strong id="marketLow">₹0.00</strong>
+        </div>
+
+        <div class="market-card">
+            <span>Close</span>
+            <strong id="marketClose">₹0.00</strong>
+        </div>
+
+        <div class="market-card current">
+            <span>Current Price</span>
+            <strong id="marketCurrentPrice">₹0.00</strong>
+        </div>
+
+        <div class="market-card">
+            <span>Change</span>
+            <strong id="marketChange">₹0.00</strong>
+        </div>
+
+    </div>
+
+
+    <!-- Chart -->
+    <div class="chart-container">
+
+        <h2>TCS Candlestick Chart</h2>
+
+
+        <div class="chart-controls">
+
+            <label for="timeframe">
+                Timeframe:
+            </label>
+
+            <select id="timeframe">
+
+                <option value="1">
+                    1 Minute
+                </option>
+
+                <option value="5" selected>
+                    5 Minutes
+                </option>
+
+                <option value="15">
+                    15 Minutes
+                </option>
+
+                <option value="30">
+                    30 Minutes
+                </option>
+
+                <option value="60">
+                    1 Hour
+                </option>
+
+            </select>
+
+
+            <label for="autoUpdate">
+
+                <input
+                    type="checkbox"
+                    id="autoUpdate"
+                    checked
+                >
+
+                Auto Update
+
+            </label>
+
+
+            <label for="showLevels">
+
+                <input
+                    type="checkbox"
+                    id="showLevels"
+                    checked
+                >
+
+                Support / Resistance
+
+            </label>
+
+
+            <label for="showMA">
+
+                <input
+                    type="checkbox"
+                    id="showMA"
+                    checked
+                >
+
+                Moving Average
+
+            </label>
+
+
+            <!-- Zoom Controls -->
+
+            <div class="zoom-controls">
+
+                <button
+                    id="zoomInButton"
+                    type="button"
+                >
+                    +
+                </button>
+
+                <button
+                    id="zoomOutButton"
+                    type="button"
+                >
+                    −
+                </button>
+
+                <button
+                    id="resetZoomButton"
+                    type="button"
+                >
+                    Reset Zoom
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Chart Wrapper -->
+
+        <div
+            class="chart-wrapper"
+            id="chartWrapper"
+        >
+
+            <canvas
+                id="candlestickChart"
+                width="800"
+                height="400"
+            ></canvas>
+
+
+            <!-- Candle Details -->
+
+            <div
+                id="candleTooltip"
+                class="candle-tooltip"
+            ></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Trading Panel -->
+
+    <div class="trading-panel">
+
+        <h2>Paper Trading</h2>
+
+
+        <!-- Account Summary -->
+
+        <div class="account-summary">
+
+            <div class="summary-card">
+
+                <span>
+                    Available Balance
+                </span>
+
+                <strong id="balance">
+                    100000.00
+                </strong>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span>
+                    Holdings
+                </span>
+
+                <strong id="portfolioQuantity">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span>
+                    Current Value
+                </span>
+
+                <strong id="currentValue">
+                    ₹0.00
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- Order Section -->
+
+        <div class="order-section">
+
+            <h3>Place Order</h3>
+
+
+            <div class="order-row">
+
+                <div class="input-group">
+
+                    <label for="quantity">
+                        Quantity
+                    </label>
+
+                    <input
+                        type="number"
+                        id="quantity"
+                        value="1"
+                        min="1"
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="orderValue">
+                        Order Value
+                    </label>
+
+                    <div
+                        class="order-value"
+                        id="orderValue"
+                    >
+                        ₹500.00
+                    </div>
+
+                </div>
+
+
+                <button id="buyButton">
+                    BUY
+                </button>
+
+
+                <button id="sellButton">
+                    SELL
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Portfolio -->
+
+        <div class="portfolio-section">
+
+            <h3>Portfolio</h3>
+
+
+            <div class="portfolio-grid">
+
+                <div class="portfolio-card">
+
+                    <span>
+                        Average Buy Price
+                    </span>
+
+                    <strong id="buyPrice">
+                        0.00
+                    </strong>
+
+                </div>
+
+
+                <div class="portfolio-card">
+
+                    <span>
+                        Current Price
+                    </span>
+
+                    <strong id="currentPrice">
+                        500.00
+                    </strong>
+
+                </div>
+
+
+                <div class="portfolio-card">
+
+                    <span>
+                        Profit / Loss
+                    </span>
+
+                    <strong id="profitLoss">
+                        0.00
+                    </strong>
+
+                </div>
+
+
+                <div class="portfolio-card">
+
+                    <span>
+                        P/L Percentage
+                    </span>
+
+                    <strong id="profitLossPercent">
+                        0.00%
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <hr>
+
+
+        <!-- Transaction History -->
+
+        <div class="history-section">
+
+            <h3>
+                Transaction History
+            </h3>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Type</th>
+
+                        <th>Quantity</th>
+
+                        <th>Price</th>
+
+                        <th>Total</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody id="transactionHistory">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <button id="resetButton">
+            RESET PORTFOLIO
+        </button>
+
+    </div>
+
+
+    <script
+        type="module"
+        src="main.js"
+    ></script>
+
+</body>
+
+</html>
+```
