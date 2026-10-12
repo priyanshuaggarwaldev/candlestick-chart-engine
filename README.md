@@ -48,5 +48,3 @@ This project provides a practical way to learn candlestick charts, basic technic
 ## Disclaimer
 This application is for educational purposes only. It does not execute real stock market trades or provide financial advice.
 
-## Author
-**Priyanshu Aggarwal**
